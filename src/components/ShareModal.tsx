@@ -4,12 +4,12 @@ import { X, Copy, Check } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
 interface ShareModalProps {
-  file: FileItem;
+  files: FileItem[];
   onClose: () => void;
   onShare: (email: string) => void;
 }
 
-export default function ShareModal({ file, onClose, onShare }: ShareModalProps) {
+export default function ShareModal({ files, onClose, onShare }: ShareModalProps) {
   const [email, setEmail] = useState('');
   const [copied, setCopied] = useState(false);
 
@@ -21,7 +21,10 @@ export default function ShareModal({ file, onClose, onShare }: ShareModalProps) 
     }
   };
 
-  const shareLink = `https://simplifile.app/shared/${file.id}`;
+  const isMultiple = files.length > 1;
+  const shareLink = isMultiple
+    ? `https://simplifile.app/shared/batch/${files.map(f => f.id).join(',')}`
+    : `https://simplifile.app/shared/${files[0].id}`;
 
   const handleCopyLink = async () => {
     try {
@@ -38,7 +41,11 @@ export default function ShareModal({ file, onClose, onShare }: ShareModalProps) 
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full p-6">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white">Share "{file.name}"</h3>
+          <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+            {isMultiple
+              ? `Share ${files.length} items`
+              : `Share "${files[0].name}"`}
+          </h3>
           <button
             onClick={onClose}
             className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full text-gray-500 dark:text-gray-400"
@@ -87,11 +94,11 @@ export default function ShareModal({ file, onClose, onShare }: ShareModalProps) 
             />
           </div>
 
-          {file.sharedWith.length > 0 && (
+          {files.some(file => file.sharedWith.length > 0) && (
             <div className="mb-4">
               <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Shared with:</h4>
               <div className="space-y-1">
-                {file.sharedWith.map((email, index) => (
+                {Array.from(new Set(files.flatMap(file => file.sharedWith))).map((email, index) => (
                   <div key={index} className="text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
                     {email}
                   </div>

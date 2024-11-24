@@ -6,41 +6,57 @@
   :root {
     --accent-color: #2563eb;
     --accent-color-hover: #1d4ed8;
+    --accent-color-light: #eff6ff;
+    --accent-color-light-hover: #dbeafe;
   }
 
   [data-accent="purple"] {
     --accent-color: #9333ea;
     --accent-color-hover: #7e22ce;
+    --accent-color-light: #f5f3ff;
+    --accent-color-light-hover: #ede9fe;
   }
 
   [data-accent="green"] {
     --accent-color: #16a34a;
     --accent-color-hover: #15803d;
+    --accent-color-light: #f0fdf4;
+    --accent-color-light-hover: #dcfce7;
   }
 
   [data-accent="red"] {
     --accent-color: #dc2626;
     --accent-color-hover: #b91c1c;
+    --accent-color-light: #fef2f2;
+    --accent-color-light-hover: #fee2e2;
   }
 
   [data-accent="orange"] {
     --accent-color: #ea580c;
     --accent-color-hover: #c2410c;
+    --accent-color-light: #fff7ed;
+    --accent-color-light-hover: #ffedd5;
   }
 
   [data-accent="pink"] {
     --accent-color: #db2777;
     --accent-color-hover: #be185d;
+    --accent-color-light: #fdf2f8;
+    --accent-color-light-hover: #fce7f3;
   }
 
   [data-accent="indigo"] {
     --accent-color: #4f46e5;
     --accent-color-hover: #4338ca;
+    --accent-color-light: #eef2ff;
+    --accent-color-light-hover: #e0e7ff;
   }
 
   [data-accent="teal"] {
     --accent-color: #0d9488;
     --accent-color-hover: #0f766e;
+    --accent-color-light: #f0fdfa;
+    --accent-color-light-hover: #ccfbf1;
   }
 }
 
@@ -67,6 +83,14 @@
 
 .focus\:border-blue-500:focus {
   @apply focus:border-accent;
+}
+
+.bg-accent-light {
+  background-color: var(--accent-color-light);
+}
+
+.hover\:bg-accent-light-hover:hover {
+  background-color: var(--accent-color-light-hover);
 }
 
 body {

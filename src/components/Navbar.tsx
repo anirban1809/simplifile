@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Search, Bell, Settings, User, Moon, Sun, LogOut, FileText } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import NotificationsModal from './NotificationsModal';
 
@@ -79,37 +79,42 @@ export default function Navbar() {
   const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
-    <nav className="sticky top-0 z-50 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo and App Name */}
-          <div className="flex items-center">
-            <div className="flex items-center space-x-2">
-              <FileText className="h-6 w-6 text-blue-600" />
+    <nav className="sticky top-0 z-50 bg-accent-light dark:bg-gray-800/95 backdrop-blur-sm border-b border-accent/10 dark:border-gray-700">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex items-center h-16">
+          {/* Logo - Left */}
+          <div className="flex-shrink-0">
+            <Link 
+              to="/"
+              className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+            >
+              <FileText className="h-6 w-6 text-accent" />
               <span className="text-xl font-bold text-gray-900 dark:text-white">Simplifile</span>
-            </div>
+            </Link>
           </div>
 
-          {/* Search Bar */}
-          <div className="flex-1 max-w-lg mx-8">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400 dark:text-gray-500" />
+          {/* Search Bar - Center */}
+          <div className="flex-1 flex justify-center px-8">
+            <div className="w-full max-w-2xl">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Search className="h-5 w-5 text-gray-400 dark:text-gray-500" />
+                </div>
+                <input
+                  type="search"
+                  placeholder="Search files..."
+                  className="block w-full pl-10 pr-3 py-2 border border-accent/10 dark:border-gray-600 rounded-lg bg-white/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-700 focus:ring-2 focus:ring-accent focus:border-transparent dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400"
+                />
               </div>
-              <input
-                type="search"
-                placeholder="Search files..."
-                className="block w-full pl-10 pr-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 focus:bg-white dark:focus:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-gray-200"
-              />
             </div>
           </div>
 
           {/* Right Side Navigation */}
-          <div className="flex items-center space-x-4">
+          <div className="flex-shrink-0 flex items-center space-x-4">
             {/* Dark Mode Toggle */}
             <button 
               onClick={toggle}
-              className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
+              className="p-2 text-gray-600 dark:text-gray-300 hover:bg-accent-light-hover dark:hover:bg-gray-700 rounded-full"
             >
               {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </button>
@@ -117,7 +122,7 @@ export default function Navbar() {
             {/* Notifications */}
             <button 
               onClick={() => setShowNotifications(true)}
-              className="relative p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
+              className="relative p-2 text-gray-600 dark:text-gray-300 hover:bg-accent-light-hover dark:hover:bg-gray-700 rounded-full"
             >
               <Bell className="h-5 w-5" />
               {unreadCount > 0 && (
@@ -128,24 +133,19 @@ export default function Navbar() {
             {/* Settings */}
             <button 
               onClick={() => navigate('/settings')}
-              className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
+              className="p-2 text-gray-600 dark:text-gray-300 hover:bg-accent-light-hover dark:hover:bg-gray-700 rounded-full"
             >
               <Settings className="h-5 w-5" />
             </button>
 
             {/* User Profile */}
-            <div className="flex items-center space-x-2 pl-4 border-l border-gray-200 dark:border-gray-700">
-              <div className="flex items-center space-x-2">
-                <div className="h-8 w-8 bg-blue-500 rounded-full flex items-center justify-center">
-                  <User className="h-5 w-5 text-white" />
-                </div>
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                  {user?.email === 'admin' ? 'Admin User' : user?.email}
-                </span>
+            <div className="flex items-center space-x-2 pl-4 border-l border-accent/10 dark:border-gray-700">
+              <div className="h-8 w-8 bg-accent rounded-full flex items-center justify-center">
+                <User className="h-5 w-5 text-white" />
               </div>
               <button
                 onClick={handleLogout}
-                className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
+                className="p-2 text-gray-600 dark:text-gray-300 hover:bg-accent-light-hover dark:hover:bg-gray-700 rounded-full"
               >
                 <LogOut className="h-5 w-5" />
               </button>

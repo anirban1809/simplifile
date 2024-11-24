@@ -3,16 +3,19 @@ import { AlertTriangle, Trash2 } from 'lucide-react';
 import { FileItem } from '../types';
 
 interface DeleteConfirmationDialogProps {
-  item: FileItem;
+  items: FileItem[];
   onConfirm: () => void;
   onCancel: () => void;
 }
 
 export default function DeleteConfirmationDialog({
-  item,
+  items,
   onConfirm,
   onCancel
 }: DeleteConfirmationDialogProps) {
+  const isMultiple = items.length > 1;
+  const hasFolders = items.some(item => item.isFolder);
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full p-6">
@@ -23,13 +26,22 @@ export default function DeleteConfirmationDialog({
         </div>
         
         <h3 className="text-lg font-medium text-center text-gray-900 dark:text-white mb-2">
-          Delete {item.isFolder ? 'Folder' : 'File'}
+          Delete {isMultiple ? 'Items' : items[0].isFolder ? 'Folder' : 'File'}
         </h3>
         
         <p className="text-sm text-center text-gray-500 dark:text-gray-400 mb-6">
-          Are you sure you want to delete "{item.name}"? 
-          {item.isFolder && " This will also delete all files inside this folder."}
-          This action cannot be undone.
+          {isMultiple ? (
+            <>
+              Are you sure you want to delete {items.length} items?
+              {hasFolders && " This will also delete all files inside the folders."}
+            </>
+          ) : (
+            <>
+              Are you sure you want to delete "{items[0].name}"?
+              {items[0].isFolder && " This will also delete all files inside this folder."}
+            </>
+          )}
+          {" "}This action cannot be undone.
         </p>
 
         <div className="flex items-center justify-end space-x-3">
@@ -44,7 +56,7 @@ export default function DeleteConfirmationDialog({
             className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md transition-colors"
           >
             <Trash2 className="h-4 w-4 mr-2" />
-            Delete
+            Delete {isMultiple ? `${items.length} items` : ''}
           </button>
         </div>
       </div>
